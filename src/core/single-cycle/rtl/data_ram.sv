@@ -1,5 +1,5 @@
 module data_ram#(
-	parameter RAM_NUM = 1000_0000
+	parameter RAM_NUM = 1000_0000,
 	parameter AW = 32,
 	parameter DW = 32
 )(
@@ -14,10 +14,12 @@ module data_ram#(
 	logic [DW-1:0] ram [RAM_NUM-1:0];
 
 	always_ff@(posedge clk,posedge rst)begin
-		if(rst) 
-			for(int i = 0;i < RAM_NUM;i++) ram[i] <= 'h0;
-		else
-	       	if(wr_en)
+		if(rst)begin 
+			for(int i = 0;i < RAM_NUM;i++) begin
+				//ram[i] <= 'h0;
+				ram[i] = 'h0; // block assignment for verilator
+			end
+		end else if(wr_en)
 			ram[addr] <= data_in;
 	end
 

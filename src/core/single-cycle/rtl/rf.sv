@@ -15,7 +15,7 @@ module rf#(
 
 	logic [DW-1:0]	regs [32-1:0];
 	always_ff @(posedge clk,posedge rst)begin
-		if(rst_n)begin
+		if(rst)begin
 			for(int i = 0;i <= 32-1;i++)begin
 				regs[i] <= 'h0;
 			end

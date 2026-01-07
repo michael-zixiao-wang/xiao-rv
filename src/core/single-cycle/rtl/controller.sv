@@ -15,7 +15,7 @@ module controller#(
 );
 
 	assign rd_data_sel = 'h0;
-	assign mem_em = 'h0;
+	assign mem_en = 'h0;
 	
 	always_comb begin
 		if(opcode == 7'b0010111 /*auipc*/ || 

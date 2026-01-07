@@ -1,12 +1,17 @@
-# project for simulation or FPGA implement
-**/vivado
-**/modelsim
-**/questasim
-**/quartus
-**/verilator
+## project for simulation or FPGA implement
+**/vivado/
+**/modelsim/
+**/questasim/
+**/quartus/
+**/verilator/
 
-# temp files
-.DS_Store
-Thumb.db
-.vscode
+## temp files
+# system temp
+**/.DS_Store/
+**/Thumb.db/
+# vscode temp
+**/.vscode/
+# vim temp
 *.swp
+
+

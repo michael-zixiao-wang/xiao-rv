@@ -118,7 +118,7 @@ module cpu#(
 		.res(res_data	)	
 	);
 	
-	logic	pc_sel;
+	//logic	pc_sel;
 	brancher#(
 		.AW	(AW	),
 		.DW	(DW	)	
@@ -131,7 +131,7 @@ module cpu#(
 	
 	logic [DW-1:0]	mem_data;
 	data_ram#(
-		.RAM_NUM	(1000_0000)
+		.RAM_NUM	(1000_0000),
 		.AW	(AW	),
 		.DW	(DW	)	
 	)u_data_ram(

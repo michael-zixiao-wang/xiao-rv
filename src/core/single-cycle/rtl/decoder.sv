@@ -5,8 +5,8 @@ module decoder#(
 	input 	logic [DW-1:0] instr,
 	
 	output 	logic [7-1:0] opcode,	// to extender
-	output	logic [3-1:0] func3;  
-	output	logic [7-1:0] func7;	
+	output	logic [3-1:0] func3, 
+	output	logic [7-1:0] func7,	
 	
 	output	logic [5-1:0]	rd_addr,
 	output	logic [5-1:0]	rs1_addr,
