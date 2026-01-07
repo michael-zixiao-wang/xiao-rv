@@ -1,0 +1,13 @@
+# project for simulation or FPGA implement
+**/vivado
+**/modelsim
+**/questasim
+**/quartus
+**/verilator
+
+# temp files
+.DS_Store
+Thumb.db
+.vscode
+
+
