@@ -1,5 +1,5 @@
 module inst_rom#(
-	parameter	FIEL = "dummy.txt",
+	parameter string FIEL = "dummy.txt",
 	parameter	AW = 32,
 	parameter	DW = 32
 )(
