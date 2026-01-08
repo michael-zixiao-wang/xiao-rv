@@ -1,3 +1,5 @@
+
+`include "../include/define.svh"
 module alu#(
 	parameter DW = 32,
 	parameter AW = 32
@@ -10,9 +12,17 @@ module alu#(
 
 	always_comb begin
 		case(alu_sel)
-			4'b0000: res  = 'h0;
-			4'b0001: res  = op1 + op2;
-
+			`ALU_NONE	: res = 'h0;
+			`ALU_ADD	: res = op1 + op2;
+			`ALU_SUB	: res = op1 - op2;
+			`ALU_XOR	: res = op1 ^ op2;
+			`ALU_OR		: res = op1 | op2;
+			`ALU_AND	: res = op1 & op2;
+			`ALU_SLL	: res = op1 << op2;
+			`ALU_SRL	: res = op1 >> op2;
+			`ALU_SRA	: res = op1 >>> op2;
+			`ALU_SLT	: res = ($signed(op1) < $signed(op2)) ? 'b1 : 'b0;
+			`ALU_SLTU	: res = (op1 < op2) ? 'b1 : 'b0; 
 			default: res = 'h0;
 		endcase
 	end

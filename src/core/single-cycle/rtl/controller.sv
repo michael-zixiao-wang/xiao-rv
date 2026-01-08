@@ -1,3 +1,4 @@
+`include "../include/define.svh"
 module controller#(
 	parameter AW = 32,
 	parameter DW = 32	
@@ -25,13 +26,37 @@ module controller#(
 		if(opcode == 7'b0010111 /*auipc*/ || 
 		   opcode == 7'b1100011 /*branch*/ )
 			alu_sel = 4'h1; // +
-		else if(opcode == 7'b0110011	||
-			opcode == 7'b0010011)begin
+		else if(opcode == 7'b0110011)begin //TODO opt the decode logic by alu_sel
 			case(func3)
-				3'h0:	alu_sel = 4'h1; // +
-
-				default: alu_sel = 4'h0; // none(alu output is zero)
+				3'h0:	alu_sel = (func7 == 7'h00) ? `ALU_ADD :            // +
+						  (func7 == 7'h20) ? `ALU_SUB : `ALU_NONE; // -
+				3'h4:	alu_sel = (func7 == 7'h00) ? `ALU_XOR : `ALU_NONE; // ^
+				3'h6:	alu_sel = (func7 == 7'h00) ? `ALU_OR  : `ALU_NONE; // |
+				3'h7:	alu_sel = (func7 == 7'h00) ? `ALU_AND : `ALU_NONE; // &
+				3'h1:	alu_sel = (func7 == 7'h00) ? `ALU_SLL : `ALU_NONE; // 
+				3'h5:	alu_sel = (func7 == 7'h00) ? `ALU_SRL : 
+						  (func7 == 7'h20) ? `ALU_SRA : `ALU_NONE; // 
+				3'h2:	alu_sel = (func7 == 7'h00) ? `ALU_SLT : `ALU_NONE; // 
+				3'h3:	alu_sel = (func7 == 7'h00) ? `ALU_SLTU: `ALU_NONE; // 
+				default: alu_sel = `ALU_NONE; // none(alu output is zero)
 			endcase
+		end else if(opcode == 7'b0010011)begin
+			case(func3)
+				3'h0:	alu_sel = `ALU_ADD; // +
+				3'h4:	alu_sel = `ALU_XOR; // ^
+				3'h6:	alu_sel = `ALU_OR ; // |
+				3'h7:	alu_sel = `ALU_AND; // &
+				3'h1:	alu_sel = (func7 == 7'h00) ? `ALU_SLL : `ALU_NONE; // 
+				3'h5:	alu_sel = (func7 == 7'h00) ? `ALU_SRL : 
+						  (func7 == 7'h20) ? `ALU_SRA : `ALU_NONE; // 
+				3'h2:	alu_sel = `ALU_SLT ; // 
+				3'h3:	alu_sel = `ALU_SLTU; // 
+				default: alu_sel = `ALU_NONE; // none(alu output is zero)
+	
+
+			endcase
+		end else begin
+			alu_sel = 'h0;
 		end
 
 
