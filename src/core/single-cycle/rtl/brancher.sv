@@ -7,6 +7,8 @@ module brancher#(
 	input	logic [DW-1:0]	rs2_data,
 	output 	logic 		pc_sel
 );
+	assign pc_sel = 'b0;
+	/* TODO add other vars to check whether jal(r) or b inst
 	always_comb begin
 		case(func3)
 			3'b000: pc_sel = (rs1_data == rs2_data); // beq
@@ -18,5 +20,5 @@ module brancher#(
 			default: pc_sel = 'b0;
 		endcase
 	end
-
+	*/
 endmodule

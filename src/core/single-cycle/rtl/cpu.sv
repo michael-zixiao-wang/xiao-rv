@@ -1,7 +1,7 @@
 module cpu#(
 	parameter AW = 32,
 	parameter DW = 32,
-	parameter string INST_FILE = "dummy.txt"
+	parameter string INST_FILE = "addi.txt"
 )(	
 	input	logic		clk,
 	input	logic 		rst
@@ -83,7 +83,6 @@ module cpu#(
 	logic	[1:0]	rd_data_sel;
 	logic		mem_en;
 	logic	[4-1:0]	alu_sel;
-	logic		rf_en;
 	logic		rs1_pc_sel;
 	logic		rs2_imm_sel;
 	controller#(
@@ -96,7 +95,7 @@ module cpu#(
 		.rd_data_sel(rd_data_sel),
 		.mem_en	(mem_en	),
 		.alu_sel(alu_sel),
-		.rf_en	(rf_en	),
+		.rf_en	(rf_wr_en),
 		.rs1_pc_sel(rs1_pc_sel),
 		.rs2_imm_sel(rs2_imm_sel)		
 	);
@@ -104,8 +103,8 @@ module cpu#(
 	logic [DW-1:0]	op1_data;
 	logic [DW-1:0]	op2_data;
 
-	assign op1_data = rs1_pc_sel ? rs1_data : pc;
-	assign op2_data = rs2_imm_sel ? rs2_data : imm;
+	assign op1_data = rs1_pc_sel ? pc : rs1_data;
+	assign op2_data = rs2_imm_sel ? imm : rs2_data;
 	
 	logic [DW-1:0]	res_data;
 	alu#(
@@ -144,8 +143,8 @@ module cpu#(
 	);
 
 	assign rd_data = (rd_data_sel == 2'b00) ? 'h0:
-			 (rd_data_sel == 2'b01) ? pc :
-			 (rd_data_sel == 2'b10) ? res_data:
+			 (rd_data_sel == 2'b10) ? pc :
+			 (rd_data_sel == 2'b01) ? res_data:
 			 (rd_data_sel == 2'b11) ? mem_data: 'h0;
 
 endmodule

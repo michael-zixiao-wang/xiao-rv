@@ -13,9 +13,13 @@ module controller#(
 	output 	logic		rs1_pc_sel	,
 	output 	logic		rs2_imm_sel	
 );
-
-	assign rd_data_sel = 'h0;
+	
+	// TODO add always_comb logic here
+	assign rd_data_sel = 2'h1; // test addi first
 	assign mem_en = 'h0;
+	assign rs1_pc_sel = 'h0;
+	assign rs2_imm_sel = 'h1; // test addi first
+	assign rf_en = 'h1; // test addi first
 	
 	always_comb begin
 		if(opcode == 7'b0010111 /*auipc*/ || 

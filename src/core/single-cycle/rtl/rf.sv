@@ -26,8 +26,8 @@ module rf#(
 	always_comb begin
 		if(rs1_addr == 'h0)
 			rs1_data = 'h0;
-		else if(wr_en && (rs1_addr == rd_addr))
-			rs1_data = rd_data;
+		//else if(wr_en && (rs1_addr == rd_addr)) // to: not generate comb logic
+		//	rs1_data = rd_data;
 		else 
 			rs1_data = regs[rs1_addr];
 	end
@@ -35,8 +35,8 @@ module rf#(
 	always_comb begin
 		if(rs2_addr == 'h0)
 			rs2_data = 'h0;
-		else if(wr_en && (rs2_addr == rd_addr))
-			rs2_data = rd_data;
+		//else if(wr_en && (rs2_addr == rd_addr))
+		//	rs2_data = rd_data;
 		else 
 			rs2_data = regs[rs2_addr];
 	end
