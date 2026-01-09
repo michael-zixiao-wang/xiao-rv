@@ -19,9 +19,16 @@ module controller#(
 	assign rd_data_sel = 2'h1; // test addi first
 	assign mem_en = 'h0;
 	assign rs1_pc_sel = 'h0;
-	assign rs2_imm_sel = 'h1; // test addi first
+	//assign rs2_imm_sel = 'h1; // test addi first
 	assign rf_en = 'h1; // test addi first
 	
+	// rs1_imm_sel control
+	// TODO opt this control
+	assign rs2_imm_sel = (opcode == 7'b0110011) ? 'h1 : // R 
+			     (opcode == 7'b0010011 || opcode == 7'b0000011) ? 'h0 : 'h0; // I	
+
+
+	// ALU control	
 	always_comb begin
 		if(opcode == 7'b0010111 /*auipc*/ || 
 		   opcode == 7'b1100011 /*branch*/ )
@@ -58,8 +65,6 @@ module controller#(
 		end else begin
 			alu_sel = 'h0;
 		end
-
-
 	end
 
 endmodule

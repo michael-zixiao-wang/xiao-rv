@@ -20,7 +20,7 @@ module alu#(
 			`ALU_AND	: res = op1 & op2;
 			`ALU_SLL	: res = op1 << op2;
 			`ALU_SRL	: res = op1 >> op2;
-			`ALU_SRA	: res = op1 >>> op2;
+			`ALU_SRA	: res = $signed(op1) >>> op2; // note: this $signed is must fot >>>
 			`ALU_SLT	: res = ($signed(op1) < $signed(op2)) ? 'b1 : 'b0;
 			`ALU_SLTU	: res = (op1 < op2) ? 'b1 : 'b0; 
 			default: res = 'h0;

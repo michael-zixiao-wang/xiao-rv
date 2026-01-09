@@ -1,7 +1,7 @@
 module cpu#(
 	parameter AW = 32,
 	parameter DW = 32,
-	parameter string INST_FILE = "addi.txt"
+	parameter string INST_FILE = "calc_itype.txt"
 )(	
 	input	logic		clk,
 	input	logic 		rst
@@ -104,7 +104,7 @@ module cpu#(
 	logic [DW-1:0]	op2_data;
 
 	assign op1_data = rs1_pc_sel ? pc : rs1_data;
-	assign op2_data = rs2_imm_sel ? imm : rs2_data;
+	assign op2_data = rs2_imm_sel ? rs2_data : imm;
 	
 	logic [DW-1:0]	res_data;
 	alu#(
