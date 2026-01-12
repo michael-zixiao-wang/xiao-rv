@@ -21,6 +21,10 @@ module controller#(
 	,input	logic		is_mem_access
 	,input	logic		is_float_calc
 	,input	logic		is_system
+	,input	logic		is_jal
+	,input	logic		is_jalr
+	,input	logic		is_auipc
+	,input	logic		is_lui
 
 	,output	logic [1:0]	rd_data_sel	
 	,output	logic 		mem_en		
@@ -29,26 +33,20 @@ module controller#(
 	,output logic		rs1_pc_sel	
 	,output logic		rs2_imm_sel	
 );
-	
-	// TODO add always_comb logic here
-	assign rd_data_sel = 2'h1; // test addi first
-	assign mem_en = 'h0;
-	assign rf_en = 'h1; // test addi first
+	// rf write control
+	assign rf_en = (is_r_type || is_i_type || is_u_type || is_lui || is_auipc) ? 'h1 : 'h0; // test addi first
 	
 	// rs1_pc_sel control	
-	assign rs1_pc_sel = 'h1; // test addi first
+	assign rs1_pc_sel = (is_b_type || is_jal || is_auipc) ? 'h0 : 'h1;
+	
 	// rs2_imm_sel control
 	assign rs2_imm_sel = is_r_type ? 'h1 : 'h0;
-	/*
-	// TODO opt this control
-	assign rs2_imm_sel = (opcode == 7'b0110011) ? 'h1 : // R 
-			     (opcode == 7'b0010011 || opcode == 7'b0000011) ? 'h0 : 'h0; // I	
-	*/
+	/*assign rs2_imm_sel = (opcode == 7'b0110011) ? 'h1 : // R 
+			     (opcode == 7'b0010011 || opcode == 7'b0000011) ? 'h0 : 'h0; // I */
 
-	// ALU control
-	
+	// alu control
 	always_comb begin
-		if(is_b_type || opcode[6:2] == `OPCODE_AUIPC /*alupc*/)
+		if(is_b_type || is_jal || is_jalr || is_auipc)
 		   	alu_sel = `ALU_ADD;
 		else if(is_r_type)begin //TODO opt the decode logic by alu_sel
 			case(func3)
@@ -120,4 +118,23 @@ module controller#(
 		end
 	end
 	*/
+	
+	// TODO add always_comb logic here
+	//assign rd_data_sel = 2'h1; // test addi first
+	always_comb begin
+		if(is_r_type || is_i_type || is_lui || is_auipc)
+			rd_data_sel = `RD_RES;
+		else if(is_mem_load)
+			rd_data_sel = `RD_MEM;
+		else if(is_jal || is_jalr)
+			rd_data_sel = `RD_PC;
+		else 
+			rd_data_sel = `RD_NONE;
+	end
+
+	assign mem_en = 'h0;
+
+
+
+
 endmodule

@@ -1,15 +1,15 @@
 module data_ram#(
-	parameter RAM_NUM = 1000_0000,
-	parameter AW = 32,
-	parameter DW = 32
+	 parameter RAM_NUM = 1000_0000
+	,parameter AW = 32
+	,parameter DW = 32
 )(
-	input 	logic		clk,
-	input	logic		rst, // not used
+	 input 	logic		clk
+	,input	logic		rst // not used
 	
-	input	logic		wr_en,
-	input	logic [AW-1:0]	addr,
-	input	logic [DW-1:0]	data_in,
-	output	logic [DW-1:0]	data_out
+	,input	logic		wr_en
+	,input	logic [AW-1:0]	addr
+	,input	logic [DW-1:0]	data_in
+	,output	logic [DW-1:0]	data_out
 );
 	logic [DW-1:0] ram [RAM_NUM-1:0];
 

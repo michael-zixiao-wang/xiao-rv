@@ -1,15 +1,15 @@
 `include "../include/define.svh"
 module pc#(
-	parameter AW = 32,
-	parameter DW = 32
+	 parameter AW = 32
+	,parameter DW = 32
 )(
-	input	logic		clk	,
-	input	logic		rst	,
+	 input	logic		clk
+	,input	logic		rst
 	// control logic
-	input	logic		pc_sel	, // 0 for default
+	,input	logic		pc_sel // 0 for default
 	// data path
-	input	logic [AW-1:0]	pc_next	,
-	output 	logic [AW-1:0]	pc
+	,input	logic [AW-1:0]	pc_next	
+	,output logic [AW-1:0]	pc
 		
 	);
 	

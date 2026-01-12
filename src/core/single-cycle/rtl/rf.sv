@@ -1,16 +1,16 @@
 module rf#(
-	parameter AW = 32,
-	parameter DW = 32
+	 parameter AW = 32
+	,parameter DW = 32
 )(
-	input logic 		clk	,
-	input logic 		rst	,
-	input logic		wr_en	,
-	input logic [5-1:0]	rd_addr ,
-	input logic [DW-1:0]	rd_data ,
-	input logic [5-1:0]	rs1_addr,
-	output logic [DW-1:0]	rs1_data,
-	input logic [5-1:0]	rs2_addr,
-	output logic [DW-1:0]	rs2_data
+	 input 	logic 		clk	
+	,input 	logic 		rst	
+	,input 	logic		wr_en	
+	,input 	logic [5-1:0]	rd_addr 
+	,input 	logic [DW-1:0]	rd_data 
+	,input 	logic [5-1:0]	rs1_addr
+	,output	logic [DW-1:0]	rs1_data
+	,input 	logic [5-1:0]	rs2_addr
+	,output	logic [DW-1:0]	rs2_data
 );
 
 	logic [DW-1:0]	regs [32-1:0];

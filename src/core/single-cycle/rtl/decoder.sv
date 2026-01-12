@@ -29,6 +29,11 @@ module decoder#(
 	,output logic 	is_float_calc
 	,output logic 	is_system
 	
+	,output logic	is_jal
+	,output logic	is_jalr
+	,output	logic 	is_auipc
+	,output	logic	is_lui
+
 	// general decode status
 	//,output logic	illegal
 	);
@@ -46,24 +51,30 @@ module decoder#(
 	assign is_i_type = (instr[6:2] == `OPCODE_TYPE_I_CALC) ||
 	       		   (instr[6:2] == `OPCODE_TYPE_I_LOAD) ||
 	       		   (instr[6:2] == `OPCODE_TYPE_I_ENV ) ||
-			   (instr[6:2] == `OPCODE_JALR) /*jalr*/ ;
+			   is_jalr;
+			   //(instr[6:2] == `OPCODE_JALR) /*jalr*/ ;
 	assign is_s_type = (instr[6:2] == `OPCODE_TYPE_S);
 	assign is_b_type = (instr[6:2] == `OPCODE_TYPE_B);
 	//TODO opt is_u_type by only use 4 bits
-	assign is_u_type = (instr[6:2] == `OPCODE_LUI) /*lui*/ ||
-		           (instr[6:2] == `OPCODE_AUIPC) /*auipc*/;
+	assign is_u_type = is_lui || is_auipc;
+			   //(instr[6:2] == `OPCODE_LUI) /*lui*/ ||
+		           //(instr[6:2] == `OPCODE_AUIPC) /*auipc*/;
 	assign is_j_type = (instr[6:2] == `OPCODE_TYPE_J);
 
 	// to controller 
 	assign is_int_calc = 	(instr[6:2] == `OPCODE_TYPE_R_CALC) ||
 		   	     	(instr[6:2] == `OPCODE_TYPE_I_CALC);
-
 	assign is_mem_load = 	(instr[6:2] == `OPCODE_TYPE_I_LOAD);
 	assign is_mem_store = 	(instr[6:2] == `OPCODE_TYPE_S);
 	assign is_mem_access = 	is_mem_load || is_mem_store;
-	assign is_branch = 	(instr[6:2] == `OPCODE_TYPE_B) ||
-				(instr[6:2] == `OPCODE_JAL) ||
-				(instr[6:2] == `OPCODE_JALR);
+	assign is_branch = 	(instr[6:2] == `OPCODE_TYPE_B) /*|| is_jal || is_jalr*/;
+
+	// something special to decode
+	assign is_jal = 	(instr[6:2] == `OPCODE_JAL);
+	assign is_jalr = 	(instr[6:2] == `OPCODE_JALR);
+	assign is_auipc =	(instr[6:2] == `OPCODE_AUIPC);
+	assign is_lui =		(instr[6:2] == `OPCODE_LUI);
+
 	//TODO
 	assign is_float_calc = 'h0;
 	assign is_system = 'h0;

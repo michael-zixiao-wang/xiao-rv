@@ -20,7 +20,7 @@
 `define OPCODE_AUIPC		5'b00101
 `define OPCODE_FENCE		5'b00011 
 
-// alu control signal decode
+// alu control signal code
 `define ALU_NONE 	4'b0000
 `define ALU_ADD	 	4'b0001
 `define ALU_SUB		4'b0010
@@ -32,3 +32,9 @@
 `define	ALU_SRA		4'b1000
 `define	ALU_SLT		4'b1001
 `define	ALU_SLTU	4'b1010
+
+// rd data control signal code
+`define	RD_NONE		2'b00
+`define	RD_RES		2'b01
+`define	RD_PC		2'b10
+`define	RD_MEM		2'b11
