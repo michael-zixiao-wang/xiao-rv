@@ -34,7 +34,7 @@ module controller#(
 	,output logic		rs2_imm_sel	
 );
 	// rf write control
-	assign rf_en = (is_r_type || is_i_type || is_u_type || is_lui || is_auipc) ? 'h1 : 'h0; // test addi first
+	assign rf_en = (is_r_type || is_i_type /*include jalr*/ || is_u_type || is_jal ) ? 'h1 : 'h0; 
 	
 	// rs1_pc_sel control	
 	assign rs1_pc_sel = (is_b_type || is_jal || is_auipc) ? 'h0 : 'h1;

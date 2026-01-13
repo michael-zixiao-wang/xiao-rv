@@ -16,10 +16,10 @@ module extender#(
 	always_comb begin
 		case({is_i_type,is_s_type,is_b_type,is_u_type,is_j_type})
 			5'b10_000: imm = {{20{instr[31]}},instr[31:20]}; // I
-			5'b01_000: imm = {{20{instr[31]}},instr[31:20]}; // S
-			5'b00_100: imm = {{20{instr[31]}},instr[31:20]}; // B
-			5'b00_010: imm = {{20{instr[31]}},instr[31:20]}; // U
-			5'b00_001: imm = {{20{instr[31]}},instr[31:20]}; // J
+			5'b01_000: imm = {{20{instr[31]}},instr[31:25],instr[11:7]}; // S
+			5'b00_100: imm = {{20{instr[31]}},instr[7],instr[30:25],instr[11:8],1'b0}; // B
+			5'b00_010: imm = {instr[31:12],12'b0000_0000_0000}; // U
+			5'b00_001: imm = {{12{instr[31]}},instr[19:12],instr[20],instr[30:21],1'b0}; // J
 			default:   imm = 'h0;
 		endcase
 	end

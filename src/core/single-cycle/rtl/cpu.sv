@@ -2,7 +2,7 @@
 module cpu#(
 	 parameter AW = 32
 	,parameter DW = 32
-	,parameter string INST_FILE = "calc_itype.txt"
+	,parameter string INST_FILE = "branch.txt"
 )(	
 	 input	logic		clk
 	,input	logic 		rst
