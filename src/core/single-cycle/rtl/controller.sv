@@ -124,12 +124,12 @@ module controller#(
 	// TODO add always_comb logic here
 	//assign rd_data_sel = 2'h1; // test addi first
 	always_comb begin
-		if(is_r_type || is_i_type || is_lui || is_auipc)
-			rd_data_sel = `RD_RES;
-		else if(is_mem_load)
-			rd_data_sel = `RD_MEM;
-		else if(is_jal || is_jalr)
+		if(is_jal || is_jalr) // note jalr is I type 
 			rd_data_sel = `RD_PC;
+		else if(is_mem_load) // note load is I type
+			rd_data_sel = `RD_MEM;
+		else if(is_r_type || is_i_type || is_u_type)
+			rd_data_sel = `RD_RES;
 		else 
 			rd_data_sel = `RD_NONE;
 	end

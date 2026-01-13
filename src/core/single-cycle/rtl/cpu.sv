@@ -2,15 +2,16 @@
 module cpu#(
 	 parameter AW = 32
 	,parameter DW = 32
-	,parameter string INST_FILE = "utype.txt"
+	,parameter string INST_FILE = "jal_jalr.txt"
 )(	
 	 input	logic		clk
 	,input	logic 		rst
 
 );
 	logic		pc_sel;
+	logic [AW-1:0]	pc_jump;
 	logic [AW-1:0]	pc_next;
-	assign pc_next = res_data;
+	assign pc_jump = res_data;
 	logic [AW-1:0]	pc;
 	pc#(
 		 .AW		(AW		)
@@ -19,8 +20,9 @@ module cpu#(
 		 .clk		(clk		)
 		,.rst		(rst		)
 		,.pc_sel	(pc_sel		)
-		,.pc_next	(pc_next	)
+		,.pc_jump	(pc_jump	)
 		,.pc		(pc		)
+		,.pc_next	(pc_next	)
 	);	
 	
 	logic [DW-1:0]	instr;
@@ -222,7 +224,7 @@ module cpu#(
 
 	assign rd_data = (rd_data_sel == `RD_NONE	) ? 'h0:
 			 (rd_data_sel == `RD_RES	) ? res_data:
-			 (rd_data_sel == `RD_PC		) ? pc :
+			 (rd_data_sel == `RD_PC		) ? pc_next :
 			 (rd_data_sel == `RD_MEM	) ? mem_data: 'h0;
 
 endmodule

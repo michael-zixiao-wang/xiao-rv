@@ -19,7 +19,7 @@ module rf#(
 			for(int i = 0;i <= 32-1;i++)begin
 				regs[i] <= 'h0;
 			end
-		end else if(wr_en)
+		end else if(wr_en && rd_addr != 'h0) // defence coding
 			regs[rd_addr] <= rd_data;
 	end
 

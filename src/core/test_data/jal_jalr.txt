@@ -1,1 +1,42 @@
-//TODO
+// -----------------------------------------------------------------
+// RISC-V JAL & JALR Test
+// Format: Machine Code (Hex) // Disassembly & Expected Result
+// -----------------------------------------------------------------
+
+// === 1. Init & JAL Test ===
+// PC = 0x00
+00000093 // addi x1, x0, 0    ; 初始化 x1 = 0
+// PC = 0x04. JAL to PC+12 = 0x10. Store PC+4=0x08 into x1
+00c000ef // jal  x1, 12       ; 核心测试: 跳转到 0x10, x1 应变为 0x00000008
+
+// === TRAP AREA (如果跳转失败会执行这里) ===
+// PC = 0x08
+ffff8293 // addi x5, x0, -1   ; 陷阱! 如果 x5 变成 -1 (0xFFFFFFFF)，说明 JAL 没跳走
+// PC = 0x0C
+ffff8293 // addi x5, x0, -1   ; 陷阱!
+
+// === 2. Link Register Check & JALR Prep ===
+// PC = 0x10 (JAL target)
+00008113 // addi x2, x1, 0    ; x2 = x1. 检查点1: x2 应该等于 0x00000008
+// PC = 0x14
+02000193 // addi x3, x0, 32   ; x3 = 32 (0x20). 准备 JALR 的基地址
+
+// === 3. JALR Test ===
+// PC = 0x18. Jump to (x3 + 4) = 32+4 = 36 (0x24). Store PC+4=0x1C into x4
+00418267 // jalr x4, x3, 4    ; 核心测试: 跳转到 0x24, x4 应变为 0x0000001C
+
+// === TRAP AREA (如果跳转失败会执行这里) ===
+// PC = 0x1C
+ffff8293 // addi x5, x0, -1   ; 陷阱! 如果 x5 变 -1，说明 JALR 没跳走
+// PC = 0x20
+ffff8293 // addi x5, x0, -1   ; 陷阱!
+
+// === 4. JALR Result Check & Finish ===
+// PC = 0x24 (JALR target)
+00020313 // addi x6, x4, 0    ; x6 = x4. 检查点2: x6 应该等于 0x0000001C
+// PC = 0x28
+00100393 // addi x7, x0, 1    ; x7 = 1.  标志位: 此时表示所有测试通过
+
+// === 5. Stop (Infinite Loop) ===
+// PC = 0x2C
+0000006f // jal  x0, 0        ; 原地跳转 (死循环)，防止跑飞
