@@ -32,6 +32,7 @@
 `define	ALU_SRA		4'b1000
 `define	ALU_SLT		4'b1001
 `define	ALU_SLTU	4'b1010
+`define ALU_LUI		4'b1011 //lui only use op2
 
 // rd data control signal code
 `define	RD_NONE		2'b00

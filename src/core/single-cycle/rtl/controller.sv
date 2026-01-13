@@ -46,7 +46,9 @@ module controller#(
 
 	// alu control
 	always_comb begin
-		if(is_b_type || is_jal || is_jalr || is_auipc)
+		if(is_lui)
+			alu_sel = `ALU_LUI;	
+		else if(is_b_type || is_jal || is_jalr || is_auipc)
 		   	alu_sel = `ALU_ADD;
 		else if(is_r_type)begin //TODO opt the decode logic by alu_sel
 			case(func3)
